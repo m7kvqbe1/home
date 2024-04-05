@@ -4,14 +4,11 @@ title = 'm7kvqbe1.dev'
 theme = 'PaperMod'
 
 [params]
-ShowReadingTime = true
-ShowToc = true
-ShowBreadCrumbs = true
-ShowCodeCopyButtons = true
+defaultTheme = 'light'
 
 [params.homeInfoParams]
-Title = "Tom Humphris"
-Content = "Software Engineer"
+Title = "Hi, I'm Tom."
+Content = "This is a personal blog where I (infrequently) write about code and other topics of interest to me. I currently work at Royal Navy DNA. Before that I was a Lead Software Engineer at Simpplr, Inc."
 
 [[params.socialIcons]]
 name = "GitHub"
