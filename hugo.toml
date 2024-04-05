@@ -3,15 +3,14 @@ languageCode = 'en-gb'
 title = 'm7kvqbe1.dev'
 theme = 'PaperMod'
 
-[params.profileMode]
-enabled = true
-title = "Tom Humphris"
-subtitle = "Software Engineer"
+[params.homeInfoParams]
+Title = "Tom Humphris"
+Content = "Software Engineer"
 
-  [[params.profileMode.buttons]]
-  name = "GitHub"
-  url = "https://github.com/m7kvqbe1"
+[[params.socialIcons]]
+name = "GitHub"
+url = "https://github.com/m7kvqbe1"
 
-  [[params.profileMode.buttons]]
-  name = "LinkedIn"
-  url = "https://www.linkedin.com/in/tom-humphris-392b2251/"
+[[params.socialIcons]]
+name = "LinkedIn"
+url = "https://www.linkedin.com/in/tom-humphris-392b2251/"
