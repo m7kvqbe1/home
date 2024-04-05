@@ -20,7 +20,7 @@ jobs:
           extended: true
 
       - name: Build Hugo site
-        run: hugo --minify
+        run: hugo --minify --environment production
 
       - name: Deploy to AWS S3
         uses: jakejarvis/s3-sync-action@master
