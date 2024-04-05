@@ -2,22 +2,29 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Posts on m7kvqbe1.dev</title>
-    <link>http://localhost:1313/posts/</link>
+    <link>https://m7kvqbe1.dev/posts/</link>
     <description>Recent content in Posts on m7kvqbe1.dev</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language>
     <lastBuildDate>Fri, 05 Apr 2024 16:49:10 +0100</lastBuildDate>
-    <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://m7kvqbe1.dev/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Unix Sockets and Protobuf in Go</title>
-      <link>http://localhost:1313/posts/my-first-post/</link>
+      <link>https://m7kvqbe1.dev/posts/unix-sockets-protobuf-go/</link>
       <pubDate>Fri, 05 Apr 2024 16:49:10 +0100</pubDate>
-      <guid>http://localhost:1313/posts/my-first-post/</guid>
+      <guid>https://m7kvqbe1.dev/posts/unix-sockets-protobuf-go/</guid>
       <description>Recently, I had a play around with Unix sockets and protobuf with Go. Here&amp;rsquo;s a brief overview of some of the things I learned.
 Find the related source code here:
 https://github.com/m7kvqbe1/unix-sockets-play
 Unix Sockets: Inter-Process Communication Unix sockets offer a method for inter-process communication (IPC) on the same machine. It&amp;rsquo;s faster and leaner than leveraging a network protocol like TCP. They&amp;rsquo;re straightforward to set up in Go:
 // Server setup listener, _ := net.</description>
+    </item>
+    <item>
+      <title>My First Post</title>
+      <link>https://m7kvqbe1.dev/posts/my-first-post/</link>
+      <pubDate>Thu, 04 Apr 2024 12:49:10 +0100</pubDate>
+      <guid>https://m7kvqbe1.dev/posts/my-first-post/</guid>
+      <description>Hello, World!</description>
     </item>
   </channel>
 </rss>

@@ -2,17 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/</loc>
+    <loc>https://m7kvqbe1.dev/</loc>
     <lastmod>2024-04-05T16:49:10+01:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/</loc>
+    <loc>https://m7kvqbe1.dev/posts/</loc>
     <lastmod>2024-04-05T16:49:10+01:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/my-first-post/</loc>
+    <loc>https://m7kvqbe1.dev/posts/unix-sockets-protobuf-go/</loc>
     <lastmod>2024-04-05T16:49:10+01:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/categories/</loc>
+    <loc>https://m7kvqbe1.dev/posts/my-first-post/</loc>
+    <lastmod>2024-04-04T12:49:10+01:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/</loc>
+    <loc>https://m7kvqbe1.dev/categories/</loc>
+  </url><url>
+    <loc>https://m7kvqbe1.dev/tags/</loc>
   </url>
 </urlset>
