@@ -22,6 +22,20 @@ listener, _ := net.Listen("unix", "/tmp/example.sock")
 conn, _ := net.Dial("unix", "/tmp/example.sock")
 ```
 
+Lets accept incoming connections and handle each one with a Go routine:
+
+```go
+for {
+  conn, err := listener.Accept()
+  if err != nil {
+    fmt.Println("Error accepting:", err.Error())
+    continue
+  }
+
+  go handleServerConnection(conn)
+}
+```
+
 We can transmit and receive from the socket like so:
 
 ```go
