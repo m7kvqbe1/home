@@ -4,7 +4,7 @@ date = 2024-04-05T16:49:10+01:00
 draft = false
 +++
 
-Recently, I had a play around with Unix sockets and protobuf with Go. Here's a brief overview of some of the things I learned.
+Recently, I had a play around with Unix Sockets and Protobuf with Go. Here's a brief overview of some of the things I learned.
 
 Find the related source code here:
 
@@ -12,7 +12,7 @@ https://github.com/m7kvqbe1/unix-sockets-play
 
 ## Unix Sockets: Inter-Process Communication
 
-Unix sockets offer a method for inter-process communication (IPC) on the same machine. It's faster and leaner than leveraging a network protocol like TCP. They're straightforward to set up in Go:
+Unix Sockets offer a method for inter-process communication (IPC) on the same machine. It's faster and leaner than leveraging a network protocol like TCP. They're straightforward to set up in Go:
 
 ```go
 // server setup
@@ -22,7 +22,7 @@ listener, _ := net.Listen("unix", "/tmp/example.sock")
 conn, _ := net.Dial("unix", "/tmp/example.sock")
 ```
 
-Lets accept incoming connections and handle each one with a Go routine:
+Lets accept incoming connections and handle each one with its own Go routine:
 
 ```go
 for {
@@ -107,7 +107,7 @@ protoc --go_out=. --go_opt=paths=source_relative ./pb/message.proto
 
 ## Implementing Protobuf over Unix Sockets
 
-Combining Unix sockets with protobuf involved serializing data into protobuf format and transmitting it through the socket.
+Combining Unix Sockets with protobuf involved serializing data into protobuf format and transmitting it through the socket.
 
 The [google.golang.org/protobuf/proto](https://google.golang.org/protobuf/proto) package provides Marshal and Unmarshal methods similar to `encoding/json` from the Go standard library.
 
