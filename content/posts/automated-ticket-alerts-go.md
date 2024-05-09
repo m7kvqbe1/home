@@ -60,20 +60,34 @@ func (s *Scraper) sendText(number string) {
     key := os.Getenv("SMS_KEY")
     message := "BUY DI TIKITZ!!!"
 
-    reqJSON, _ := json.Marshal(map[string]string{
+    reqJSON, err := json.Marshal(map[string]string{
         "phone":   number,
         "message": message,
         "key":     key,
     })
+    if err != nil {
+        log.Println("Error encoding request body:", err)
+        return
+    }
 
-    req, _ := http.NewRequest(
+    req, err := http.NewRequest(
         "POST",
         "https://textbelt.com/text",
         strings.NewReader(string(reqJSON)),
     )
+    if err != nil {
+        log.Println("Error creating request:", err)
+        return
+    }
+
     req.Header.Add("Content-Type", "application/json")
 
-    resp, _ := s.httpClient.Do(req)
+    resp, err := s.httpClient.Do(req)
+    if err != nil {
+        log.Println("Error sending SMS:", err)
+        return
+    }
+
     defer resp.Body.Close()
 
     if resp.StatusCode == http.StatusOK {
@@ -97,7 +111,17 @@ func (s *Scraper) fetch() {
         colly.UserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/91.0.4472.124 Safari/537.36"),
     )
 
+    c.WithTransport(&http.Transport{
+        DialContext: (&net.Dialer{}).DialContext,
+        TLSClientConfig: &tls.Config{
+            InsecureSkipVerify: true,
+        },
+    })
+
     c.OnRequest(func(r *colly.Request) {
+        r.Headers.Set("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9")
+        r.Headers.Set("Accept-Language", "en-US,en;q=0.9")
+        r.Headers.Set("Referer", "https://www.google.com/")
         log.Println("Visiting", r.URL.String())
     })
 
@@ -137,7 +161,6 @@ func (s *Scraper) success() {
         go s.sendText(number)
     }
 
-    // Signals completion to stop further polling
     close(s.done)
 }
 
@@ -152,7 +175,10 @@ The `scrapeLoop` method manages a continuous polling loop, invoking the `fetch` 
 
 ```go
 func (s *Scraper) scrapeLoop() {
-    intervalMS, _ := strconv.Atoi(os.Getenv("INTERVAL_MS"))
+    intervalMS, err := strconv.Atoi(os.Getenv("INTERVAL_MS"))
+    if err != nil {
+        log.Fatalf("Error parsing INTERVAL_MS: %v", err)
+    }
 
     ticker := time.NewTicker(time.Duration(intervalMS) * time.Millisecond)
     defer ticker.Stop()
@@ -162,7 +188,6 @@ func (s *Scraper) scrapeLoop() {
         case <-s.done:
             return
         case <-ticker.C:
-            // Run each scraping task concurrently
             go s.fetch()
         }
     }

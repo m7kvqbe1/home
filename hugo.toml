@@ -4,10 +4,10 @@ title = 'm7kvqbe1.dev'
 theme = 'PaperMod'
 
 [params]
-defaultTheme = 'dark'
+defaultTheme = 'light'
 
 [params.homeInfoParams]
-Title = "🙂 Hi, I'm Tom."
+Title = "👋 Hi, I'm Tom."
 Content = "This is a personal blog where I (infrequently) write about technology and other topics of interest to me. I currently work at Royal Navy DNA. Before that I was a Lead Software Engineer at Simpplr, Inc."
 
 [[params.socialIcons]]
