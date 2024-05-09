@@ -133,7 +133,7 @@ func (s *Scraper) success() {
         go s.sendText(number)
     }
 
-    // Signals completion to stop further polling.
+    // Signals completion to stop further polling
     close(s.done)
 }
 
@@ -158,7 +158,7 @@ func (s *Scraper) scrapeLoop() {
         case <-s.done:
             return
         case <-ticker.C:
-            // Run each scraping task concurrently.
+            // Run each scraping task concurrently
             go s.fetch()
         }
     }

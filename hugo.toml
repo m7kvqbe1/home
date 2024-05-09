@@ -4,10 +4,10 @@ title = 'm7kvqbe1.dev'
 theme = 'PaperMod'
 
 [params]
-defaultTheme = 'light'
+defaultTheme = 'dark'
 
 [params.homeInfoParams]
-Title = "Hi, I'm Tom."
+Title = "🙂 Hi, I'm Tom."
 Content = "This is a personal blog where I (infrequently) write about technology and other topics of interest to me. I currently work at Royal Navy DNA. Before that I was a Lead Software Engineer at Simpplr, Inc."
 
 [[params.socialIcons]]
@@ -17,3 +17,19 @@ url = "https://github.com/m7kvqbe1"
 [[params.socialIcons]]
 name = "LinkedIn"
 url = "https://www.linkedin.com/in/tom-humphris-392b2251/"
+
+[markup]
+  [markup.highlight]
+    anchorLineNos = false
+    codeFences = true
+    guessSyntax = false
+    hl_Lines = ''
+    hl_inline = false
+    lineAnchors = ''
+    lineNoStart = 1
+    lineNos = false
+    lineNumbersInTable = true
+    noClasses = true
+    noHl = false
+    style = 'dracula'
+    tabWidth = 4
