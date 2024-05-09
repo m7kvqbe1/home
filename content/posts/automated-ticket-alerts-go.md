@@ -10,6 +10,10 @@ This was an learning exercise in concurrency in Go: goroutines, channels, wait g
 
 Lets walk through the implementation details.
 
+Find the related source code here:
+
+https://github.com/m7kvqbe1/go-ticket-polling
+
 ## How the Solution Works
 
 1. **Polling and Scraping**: The script uses the `colly` web scraping library to poll ticket websites and search for the availability of resale tickets at defined intervals.
