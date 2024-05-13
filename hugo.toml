@@ -4,7 +4,7 @@ title = 'm7kvqbe1.dev'
 theme = 'PaperMod'
 
 [params]
-defaultTheme = 'light'
+defaultTheme = 'dark'
 
 [params.homeInfoParams]
 Title = "👋 Hi, I'm Tom."
