@@ -6,7 +6,7 @@ draft = false
 
 Getting hold of resale tickets can be challenging due to high demand and rapid transactions. To tackle this, I've built an automated solution that scrapes ticket websites and sends you SMS alerts when resale tickets become available.
 
-This was an learning exercise in concurrency in Go: goroutines, channels, wait groups etc.
+This was a learning exercise in concurrency in Go: goroutines, channels, wait groups etc.
 
 Lets walk through the implementation details.
 
