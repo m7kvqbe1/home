@@ -1,5 +1,5 @@
 +++
-title = 'Automated Ticket Alerts in Go'
+title = 'Automated Ticket Alerts'
 date = 2024-05-09T12:08:10+01:00
 draft = false
 +++
