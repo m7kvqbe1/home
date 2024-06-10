@@ -4,7 +4,7 @@ date = 2024-04-05T16:49:10+01:00
 draft = false
 +++
 
-Recently, I had a play around with Unix Sockets and Protobuf with Go. Here's a brief overview of some of the things I learned.
+Recently, I explored Unix Sockets and Protobuf with Go. Here's a brief overview of some of the things I learned.
 
 Find the related source code here:
 
