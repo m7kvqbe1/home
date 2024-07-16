@@ -8,7 +8,7 @@ Recently, I explored Unix Sockets and Protobuf with Go. Here's a brief overview 
 
 Find the related source code here:
 
-https://github.com/m7kvqbe1/unix-sockets-play
+https://github.com/m7kvqbe1/unix-sockets-protobuf-play
 
 ## Unix Sockets: Inter-Process Communication
 
