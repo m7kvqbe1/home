@@ -66,21 +66,21 @@ import (
 The `main.go` file in the root of the codebase contains a root command and subcommands for each of the challenges:
 
 ```go
-	rootCmd := &cobra.Command{Use: "advent-of-code-2023"}
+rootCmd := &cobra.Command{Use: "advent-of-code-2023"}
 
-	rootCmd.AddCommand(&cobra.Command{
-		Use:   "day01part1",
-		Short: "Run Day 01 Part 1",
-		Run: func(cmd *cobra.Command, args []string) {
-			day01.Part1()
-		},
-	})
+rootCmd.AddCommand(&cobra.Command{
+	Use:   "day01part1",
+	Short: "Run Day 01 Part 1",
+	Run: func(cmd *cobra.Command, args []string) {
+		day01.Part1()
+	},
+})
 
-	// ...
+// ...
 
-	if err := rootCmd.Execute(); err != nil {
-		fmt.Println(err)
-	}
+if err := rootCmd.Execute(); err != nil {
+	fmt.Println(err)
+}
 ```
 
 Each subcommand is associated with a public function from the respective package.
