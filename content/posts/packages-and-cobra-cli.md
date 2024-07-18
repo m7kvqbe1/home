@@ -22,7 +22,7 @@ First we initialize the project as a new module:
 go mod init github.com/m7kvqbe1/advent-of-code-2023
 ```
 
-This creates a `go.mod` file and as we import packages the Go tooling automatically updates this file.
+This creates a `go.mod` file (there is also `go.sum` file which is essentially a lockfile). As we import packages the Go tooling automatically updates these files.
 
 It specifies direct and indirect deps:
 
@@ -39,8 +39,6 @@ require (
 )
 
 ```
-
-There is also `go.sum` file which is essentially a lockfile. Go tooling takes care of this too.
 
 ## Organizing Code into Packages
 
