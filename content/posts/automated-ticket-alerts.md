@@ -4,7 +4,7 @@ date = 2024-05-09T12:08:10+01:00
 draft = false
 +++
 
-A small program in Go for scraping ticket websites and sending SMS messages when resale tickets become available.
+A small program in Go for polling and scraping ticket websites then sending SMS messages when resale tickets become available.
 
 This was a learning exercise in Go concurrency: goroutines, channels, wait groups etc.
 
