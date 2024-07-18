@@ -4,21 +4,19 @@ date = 2024-05-09T12:08:10+01:00
 draft = false
 +++
 
-Getting hold of resale tickets can be challenging due to high demand and rapid transactions. To tackle this, I've built an automated solution that scrapes ticket websites and sends you SMS alerts when resale tickets become available.
+A small program in Go for scraping ticket websites and sending SMS messages when resale tickets become available.
 
-This was a learning exercise in concurrency in Go: goroutines, channels, wait groups etc.
-
-Lets walk through the implementation details.
+This was a learning exercise in Go concurrency: goroutines, channels, wait groups etc.
 
 Find the related source code here:
 
 https://github.com/m7kvqbe1/go-ticket-polling
 
-## How the Solution Works
+## Overview
 
-1. **Polling and Scraping**: The script uses the `colly` web scraping library to poll ticket websites and search for the availability of resale tickets at defined intervals.
-2. **SMS Notification**: When tickets are found, the script sends an SMS to the specified phone numbers using the Textbelt API.
-3. **Graceful Shutdown**: The script also listens for system signals to gracefully handle termination.
+1. **Polling and Scraping**: Uses the `colly` web scraping library to poll a site and search for the availability of resale tickets.
+2. **SMS Notification**: When tickets are found, sends an SMS to the specified phone numbers using the Textbelt API.
+3. **Graceful Shutdown**: Listens for system signals to gracefully handle termination.
 
 ## Code Overview
 
