@@ -52,7 +52,6 @@ The `sendText` method uses the Textbelt API to send SMS notifications concurrent
 
 ```go
 func (s *Scraper) sendText(number string) {
-    s.waitGroup.Add(1)
     defer s.waitGroup.Done()
 
     key := os.Getenv("SMS_KEY")
@@ -102,7 +101,6 @@ The `fetch` method uses the `colly` library to perform the scraping. Each scrapi
 
 ```go
 func (s *Scraper) fetch() {
-    s.waitGroup.Add(1)
     defer s.waitGroup.Done()
 
     c := colly.NewCollector(
@@ -156,6 +154,7 @@ func (s *Scraper) success() {
 
     phoneNumbers := strings.Split(os.Getenv("PHONE_NUMBERS"), ",")
     for _, number := range phoneNumbers {
+        s.waitGroup.Add(1)
         go s.sendText(number)
     }
 
@@ -186,6 +185,7 @@ func (s *Scraper) scrapeLoop() {
         case <-s.done:
             return
         case <-ticker.C:
+            s.waitGroup.Add(1)
             go s.fetch()
         }
     }
