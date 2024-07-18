@@ -14,7 +14,7 @@ https://github.com/m7kvqbe1/advent-of-code-2023
 
 ![Advent of Code 2023 Cobra CLI](/images/advent-of-code-2023-cobra.png)
 
-## Organizing Code into Packages
+## Init
 
 First we initialize the project as a new module:
 
@@ -22,7 +22,7 @@ First we initialize the project as a new module:
 go mod init github.com/m7kvqbe1/advent-of-code-2023
 ```
 
-This creates a `go.mod` file and as we import packages Go automatically updates this file.
+This creates a `go.mod` file and as we import packages the Go tooling automatically updates this file.
 
 It specifies direct and indirect deps:
 
@@ -39,6 +39,10 @@ require (
 )
 
 ```
+
+There is also `go.sum` file which is essentially a lockfile. Go tooling takes care of this too.
+
+## Organizing Code into Packages
 
 The code has then been divided into multiple packages within the `pkg` directory (this is an [established Go convention](https://github.com/golang-standards/project-layout/tree/master/pkg)).
 
