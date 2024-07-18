@@ -18,9 +18,9 @@ https://github.com/m7kvqbe1/go-ticket-polling
 2. **SMS Notification**: When tickets are found, sends an SMS to the specified phone numbers using the Textbelt API.
 3. **Graceful Shutdown**: Listens for system signals to gracefully handle termination.
 
-## Code Overview
+## Implementation
 
-Here's the core logic implemented step-by-step:
+Here's a step-by-step breakdown of the implementation:
 
 ### Environment Setup
 
