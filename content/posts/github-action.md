@@ -4,7 +4,7 @@ date = 2024-10-10T12:08:10+01:00
 draft = false
 +++
 
-[**m7kvqbe1/github-action-move-issues**](https://github.com/marketplace/actions/move-issue-to-project-column) is a GitHub Action that automates the movement of issues within GitHub Projects V2 based on specific labels, saving you time and keeping your project organized.
+[**m7kvqbe1/github-action-move-issues**](https://github.com/marketplace/actions/move-issue-to-project-column) is a GitHub Action that automates the movement of issues within GitHub Projects V2 based on specific labels.
 
 Find the related source code here:
 
@@ -120,6 +120,35 @@ const getCurrentStatus = (issueItemData) => {
   return issueItemData.fieldValues?.nodes.find(
     (node) => node.field?.name === "Status"
   )?.name;
+};
+
+const processIssueItem = async (
+  octokit,
+  projectData,
+  issue,
+  TARGET_COLUMN,
+  IGNORED_COLUMNS,
+  core
+) => {
+  // ...
+
+  const currentStatus = getCurrentStatus(issueItemData);
+
+  if (IGNORED_COLUMNS.includes(currentStatus)) {
+    console.log(
+      `Issue #${issue.number} is in an ignored column (${currentStatus}). Skipping.`
+    );
+    return;
+  }
+
+  await updateIssueStatus(
+    octokit,
+    projectData.id,
+    issueItemData.id,
+    statusField.id,
+    targetStatusOption.id
+  );
+  console.log(`Moved issue #${issue.number} to "${TARGET_COLUMN}"`);
 };
 ```
 
