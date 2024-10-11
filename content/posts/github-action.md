@@ -135,10 +135,9 @@ const processIssueItem = async (
   const currentStatus = getCurrentStatus(issueItemData);
 
   if (IGNORED_COLUMNS.includes(currentStatus)) {
-    console.log(
+    throw new Error(
       `Issue #${issue.number} is in an ignored column (${currentStatus}). Skipping.`
-    );
-    return;
+    )
   }
 
   await updateIssueStatus(
@@ -184,4 +183,53 @@ const updateIssueStatus = async (
     statusOptionId,
   });
 };
+```
+
+## Building and Publishing the Action
+
+To make this GitHub Action available for others:
+
+### Building with @vercel/ncc
+
+1. Install @vercel/ncc:
+
+```bash
+npm install --save-dev @vercel/ncc
+```
+
+2. Add to `package.json`:
+
+```json
+{
+  "scripts": {
+    "build": "ncc build index.js -o dist"
+  }
+}
+```
+
+3. Run: `npm run build`
+
+This creates a `dist/index.js` file with your action and dependencies.
+
+### Publishing to the GitHub Actions Marketplace
+
+1. Update `action.yml`:
+
+```yaml
+runs:
+  using: "node20"
+  main: "dist/index.js"
+```
+
+2. Commit changes, including `dist`.
+3. Create a new release with a semantic version tag.
+4. Publish to Marketplace:
+   - Edit the release on GitHub
+   - Check "Publish this Action to the GitHub Marketplace"
+   - Fill required information and publish
+
+Remember to update the action version in workflows:
+
+```yaml
+- uses: m7kvqbe1/github-action-move-issues@v1.0.1
 ```
