@@ -135,9 +135,10 @@ const processIssueItem = async (
   const currentStatus = getCurrentStatus(issueItemData);
 
   if (IGNORED_COLUMNS.includes(currentStatus)) {
-    throw new Error(
+    console.log(
       `Issue #${issue.number} is in an ignored column (${currentStatus}). Skipping.`
     )
+    return;
   }
 
   await updateIssueStatus(
