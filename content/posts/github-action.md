@@ -58,18 +58,16 @@ This GitHub Action leverages the GitHub GraphQL API to interact with Projects V2
 1. **Validate Issue**: Ensures the issue that triggered the workflow has the required label.
 
 ```go
-const validateIssue = (issue, TARGET_LABELS, core) => {
+const validateIssue = (issue, TARGET_LABELS) => {
   if (!issue || !issue.node_id) {
-    core.setFailed("Invalid or missing issue object");
-    return false;
+    throw new Error("Invalid or missing issue object");
   }
 
   if (!issue.labels.some((label) => TARGET_LABELS.includes(label.name))) {
-    console.log(`Issue #${issue.number} does not have a target label`);
-    return false;
+    throw new Error(`Issue #${issue.number} does not have a target label`);
   }
 
-  return true;
+  return;
 };
 ```
 
@@ -127,8 +125,7 @@ const processIssueItem = async (
   projectData,
   issue,
   TARGET_COLUMN,
-  IGNORED_COLUMNS,
-  core
+  IGNORED_COLUMNS
 ) => {
   // ...
 
