@@ -1,5 +1,5 @@
 +++
-title = 'Move Issue to Project Column'
+title = 'GitHub Action Move Issues'
 date = 2024-10-10T12:08:10+01:00
 draft = false
 +++
