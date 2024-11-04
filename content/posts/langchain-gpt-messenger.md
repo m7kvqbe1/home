@@ -10,7 +10,7 @@ I built a conversational AI using LangChain and the OpenAI API that parses Faceb
 
 Here’s a quick walkthrough of the process and some insights.
 
-Find the source code here:
+Find the related source code here:
 
 https://github.com/m7kvqbe1/llm-messenger-history
 
