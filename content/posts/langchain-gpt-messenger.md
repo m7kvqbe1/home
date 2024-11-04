@@ -12,7 +12,7 @@ Here’s a quick walkthrough of the process and some insights.
 
 Find the source code here:
 
-https://github.com/your-repo/facebook-chat-ai
+https://github.com/m7kvqbe1/llm-messenger-history
 
 ## Obtaining Historical Chat Data
 
