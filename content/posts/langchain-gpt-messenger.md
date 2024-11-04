@@ -4,8 +4,6 @@ date = 2024-11-04T10:00:00+00:00
 draft = false
 +++
 
-> LangChain is a software framework that helps facilitate the integration of large language models (LLMs) into applications.
-
 I built a conversational AI using LangChain and the OpenAI API that parses Facebook Messenger data. This enables you to have meaningful conversations with your historical chat data.
 
 Here’s a quick walkthrough of the process and some insights.
