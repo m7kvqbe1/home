@@ -4,7 +4,7 @@ date = 2024-11-04T10:00:00+00:00
 draft = false
 +++
 
-I built a conversational AI using LangChain and the OpenAI API that parses Facebook Messenger data. This enables you to have meaningful conversations with your historical chat data.
+I built a conversational AI using LangChain and the OpenAI API that analyzes Facebook Messenger data. This enables you to have meaningful conversations with your historical chat data.
 
 Here’s a quick walkthrough of the process and some insights.
 
@@ -14,16 +14,29 @@ https://github.com/m7kvqbe1/llm-messenger-history
 
 ## Obtaining Historical Chat Data
 
-Facebook allows you to download a copy of your data through the "Download Your Information" section in your account settings. Ensure that you select the option to include your Messenger data.
+Facebook allows you to download a copy of your data through the "Download Your Information" section in your account settings. After downloading, place your data in a `./data/username/messages/inbox` directory.
+
+## Environment Setup
+
+Before running the application, you'll need to set up a few environment variables:
+
+```bash
+OPENAI_API_KEY=your_api_key_here
+USERNAME=your_facebook_username
+```
 
 ## Parsing Messenger Data with LangChain
 
-LangChain's `FacebookChatLoader` made it straightforward to import and handle chat data. Start by pointing it to your Messenger directory:
+The application recursively walks through your Messenger directory to load all JSON chat files:
 
 ```python
-loader = FacebookChatLoader(path="./data/username/messages/inbox")
-documents = loader.load()
-print(f"Loaded {len(documents)} documents.")
+documents = []
+for root, dirs, files in os.walk(folder_path):
+    for file in files:
+        if file.endswith('.json'):
+            file_path = os.path.join(root, file)
+            loader = FacebookChatLoader(path=file_path)
+            documents.extend(loader.load())
 ```
 
 This loads your Facebook messages as documents ready for processing.
@@ -63,9 +76,38 @@ qa = ConversationalRetrievalChain.from_llm(llm, vectorstore.as_retriever())
 
 This chain handles context-aware responses, making interactions more fluid and natural.
 
-## Chatting with Your AI
+## Smart Batch Processing with Rate Limiting
 
-Finally, I created an interactive loop to chat with the AI:
+To handle large datasets efficiently while respecting OpenAI's rate limits, the application implements smart batch processing:
+
+```python
+tokens_per_chunk = 250
+rate_limit_tpm = 1000000
+batch_size = 100
+
+# Calculate optimal wait time between batches
+tokens_per_batch = batch_size * tokens_per_chunk
+batches_per_minute = rate_limit_tpm / tokens_per_batch
+optimal_wait_time = (60 / batches_per_minute) * 1.1
+```
+
+The system processes documents in batches with automatic retry logic and dynamic wait times if rate limits are hit.
+
+## Model Selection
+
+The application supports both GPT-3.5 Turbo and GPT-4:
+
+```python
+llm = ChatOpenAI(
+    temperature=0.7,
+    model_name=args.model,  # 'gpt-3.5-turbo' or 'gpt-4'
+    openai_api_key=OPENAI_API_KEY
+)
+```
+
+## Enhanced Chat Interface with Source Citations
+
+The chat responses include source citations to show where the AI's information comes from:
 
 ```python
 def chat():
@@ -74,24 +116,32 @@ def chat():
     while True:
         query = input("You: ")
         if query.lower() in ('exit', 'quit'):
-            print("Exiting chat.")
             break
-        if not query.strip():
-            continue
-        result = qa({"question": query, "chat_history": chat_history})
-        answer = result["answer"]
-        print(f"AI: {answer}")
-        chat_history.append((query, answer))
 
-chat()
+        result = qa({
+            "question": query,
+            "chat_history": chat_history
+        })
+
+        print(f"\nAI: {result['answer']}\n")
+
+        if "source_documents" in result:
+            sources = [doc.page_content[:400]
+                      for doc in result["source_documents"][:3]]
+            print(f"\nSources: {json.dumps({'sources': sources}, indent=2)}")
 ```
+
+Example interaction:
 
 ```
 Chat with your Facebook Messenger AI (type 'exit' to quit):
 You: What did I talk about with John last Christmas?
 AI: Last Christmas, you and John discussed holiday plans.
-You: Who else was involved in the conversation?
-AI: You also mentioned inviting Sarah and Mike to join the holiday gathering.
-You: exit
-Exiting chat.
+
+Sources: {
+  "sources": [
+    "December 25, 2023: Discussing holiday dinner plans with John...",
+    "December 24, 2023: Coordinating gift exchange timing..."
+  ]
+}
 ```
