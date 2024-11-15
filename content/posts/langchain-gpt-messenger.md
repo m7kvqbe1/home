@@ -1,5 +1,5 @@
 +++
-title = 'LangChain, GPT and Messenger'
+title = 'LangChain and OpenAI'
 date = 2024-11-04T10:00:00+00:00
 draft = false
 +++
