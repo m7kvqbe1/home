@@ -1,5 +1,5 @@
 +++
-title = 'Satellite Network Emulation'
+title = 'Portable Network Emulation (tc netem)'
 date = 2025-02-25T12:00:00+00:00
 draft = false
 +++
