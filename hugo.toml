@@ -5,9 +5,6 @@ theme = 'PaperMod'
 
 [params]
 defaultTheme = 'dark'
-showToc = true
-tocopen = true
-ShowReadingTime = true
 
 [params.homeInfoParams]
 Title = "👋 Hi, I'm Tom."

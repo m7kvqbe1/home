@@ -1,17 +1,15 @@
 +++
-title = 'Network Emulation (netem)'
+title = 'socat and tc netem'
 date = 2025-02-25T12:00:00+00:00
 draft = false
 +++
 
-Using Linux traffic control (tc) and netem, we can create realistic satellite link conditions from low-earth orbit (LEO) to geostationary (GEO) satellites.
-
-The great thing about this approach is that it's completely portable - you can drop it in front of any service without modifying the target application.
+Using socat, Linux traffic control (tc) and netem, we can emulate realistic satellite link network conditions. The great thing about this approach is that it's completely portable - you can drop it in front of any service without modifying the target application.
 
 ## Overview
 
-- **Realistic Satellite Emulation**: Simulate various satellite scenarios from LEO to GEO
-- **Real-time Monitoring**: Expose metrics via Prometheus to visualize in Grafana
+- **Realistic Network Emulation**: Simulate various satellite scenarios from LEO to GEO
+- **Real-time Monitoring**: Expose metrics via Prometheus and visualize in Grafana
 - **Runtime Control**: Change network conditions on the fly
 - **Portable Proxy Design**: Drop-in containerized solution that works with any service
 
@@ -20,6 +18,12 @@ The great thing about this approach is that it's completely portable - you can d
 Here's how to build a network emulator using common Linux tools and containers:
 
 ### Containerized Proxy Architecture
+
+This containerized approach provides several benefits:
+
+1. **Portable**: Run it locally, in CI/CD, or in production
+2. **Isolated**: Network conditions don't affect the host system
+3. **Self-contained**: Includes all necessary tools and monitoring
 
 Implement as a self-contained Docker container that acts as a transparent proxy:
 
@@ -39,6 +43,8 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    cap_add:
+      - NET_ADMIN
     depends_on:
       - app
 
@@ -58,18 +64,13 @@ services:
       - "3000:3000"
 ```
 
-This containerized approach provides several benefits:
-
-1. **Portable**: Run it locally, in CI/CD, or in production
-2. **Isolated**: Network conditions don't affect the host system
-3. **Self-contained**: Includes all necessary tools and monitoring
+> **Note:** The emulator container needs `NET_ADMIN` to modify network interfaces.
 
 ### Network Proxy with socat
 
-At the heart of the emulator is `socat`, a versatile networking relay tool. It acts as a transparent proxy, forwarding traffic between the client and backend server while allowing us to apply network conditions:
+At the heart of the emulator is `socat`, a flexible, multi-purpose relay tool. It acts as a transparent proxy, forwarding traffic between the client and a specified upstream host:
 
 ```bash
-# TCP forwarding with IPv4/IPv6 support
 socat -v TCP-LISTEN:80,fork,reuseaddr TCP:${UPSTREAM_HOST}:80
 ```
 
@@ -196,7 +197,7 @@ func main() {
 }
 ```
 
-The metrics are exposed on `/metrics` in the standard Prometheus format:
+Metrics are exposed via an endpoint (`/metrics`) in the standard Prometheus format:
 
 ```text
 # HELP network_delay_ms Current network delay in milliseconds
@@ -226,5 +227,4 @@ This pattern can be useful for:
 
 - Testing application behavior under various network conditions
 - Evaluating protocol performance
-- Network simulation and planning
 - Automated testing in CI/CD pipelines
