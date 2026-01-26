@@ -1,6 +1,6 @@
 +++
-title = 'Recursive SQL CTEs for Directory Structures'
-date = 2026-01-26T12:00:00+00:00
+title = 'Recursive CTEs for Directory Structures'
+date = 2026-01-26T09:00:00+00:00
 draft = false
 +++
 
