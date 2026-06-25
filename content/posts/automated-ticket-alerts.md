@@ -1,5 +1,5 @@
 +++
-title = 'Automated Ticket Alerts'
+title = 'Catching Resale Tickets with a Go Scraper'
 date = 2024-05-09T12:08:10+01:00
 draft = false
 +++

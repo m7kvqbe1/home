@@ -1,5 +1,5 @@
 +++
-title = 'LangChain and OpenAI'
+title = 'Chatting with My Messenger History using LangChain'
 date = 2024-11-04T10:00:00+00:00
 draft = false
 +++

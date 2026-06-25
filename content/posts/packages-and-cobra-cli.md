@@ -1,5 +1,5 @@
 +++
-title = 'Go Packages and Cobra CLI'
+title = 'Building a Go CLI with Cobra'
 date = 2024-07-18T12:08:10+01:00
 draft = false
 +++

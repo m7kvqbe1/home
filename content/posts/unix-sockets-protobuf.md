@@ -1,5 +1,5 @@
 +++
-title = 'Unix Sockets and Protobuf'
+title = 'IPC in Go with Unix Sockets and Protobuf'
 date = 2024-04-05T16:49:10+01:00
 draft = false
 +++

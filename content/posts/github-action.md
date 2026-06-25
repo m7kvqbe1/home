@@ -1,5 +1,5 @@
 +++
-title = 'GitHub Action Move Issues'
+title = 'A GitHub Action to Move Issues by Label'
 date = 2024-10-10T12:08:10+01:00
 draft = false
 +++
