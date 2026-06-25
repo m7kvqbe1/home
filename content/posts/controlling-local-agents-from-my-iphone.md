@@ -1,5 +1,5 @@
 +++
-title = 'Local Agents from my Phone'
+title = 'Controlling Local Agents from my iPhone'
 date = 2026-06-25T09:00:00+01:00
 draft = false
 +++
