@@ -1,0 +1,35 @@
+.post-content img {
+    max-height: 600px;
+    width: auto;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+.post-content .img-row {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 1rem 0;
+}
+
+.post-content .img-row img {
+    margin: 0;
+    max-height: 600px;
+    width: auto;
+    max-width: 50%;
+    object-fit: contain;
+}
+
+@media (max-width: 500px) {
+    .post-content .img-row {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .post-content .img-row img {
+        max-width: 100%;
+    }
+}
