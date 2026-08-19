@@ -95,7 +95,7 @@ The other line that pulls its weight sits in the workflow rather than the catalo
 
 The deck template hides every slide except the one carrying `active`, and initialises from it. A fragment where nothing is marked `active` produces a technically valid HTML file that opens completely blank — which is a horrible thing to discover with a laptop plugged into a projector.
 
-You could ask the model very nicely to always remember the `active` class. Better to make the build fail:
+You could ask the model very nicely to always remember the `active` class. Better to make the build fail. My first attempt was the obvious one:
 
 ```python
 slides = Path(args.slides).read_text()
@@ -105,7 +105,20 @@ if "active" not in slides:
     sys.exit("error: no slide carries the 'active' class — the first slide must have it")
 ```
 
-Two checks, four lines, non-zero exit. An agent that can read a failing command's output will fix its own mistake and move on without being told; a prompt-level instruction just quietly decays.
+Two checks, four lines, non-zero exit. An agent that can read a failing command's output will fix its own mistake and move on without being told, whereas a prompt-level instruction just quietly decays.
+
+It was also wrong, which I only found out while building the demo deck for this post. That deck has a slide *about* this very guardrail, with the word `active` sitting in a terminal block — so `"active" not in slides` was satisfied by the prose, and a fragment where nothing was marked active built perfectly happily. A guard that matches your writing instead of your markup isn't a guard.
+
+The fix is to parse the section tags rather than grep the file:
+
+```python
+SLIDE_SECTION = re.compile(r'<section\b[^>]*?\bclass="([^"]*)"', re.IGNORECASE)
+
+def slide_classes(fragment):
+    return [c.split() for c in SLIDE_SECTION.findall(fragment) if "slide" in c.split()]
+```
+
+`active` is then checked per tag, against a real class list. The same substring bug was quietly inflating the slide count two lines further down, which is how a five-slide deck once reported six.
 
 ![Terminal recording of build.py assembling a five-slide deck and PDF, then rejecting a fragment where no slide is marked active and exiting 1](/images/presentation-deck-build.gif)
 
