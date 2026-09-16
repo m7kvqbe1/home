@@ -8,7 +8,7 @@ defaultTheme = 'dark'
 
 [params.homeInfoParams]
 Title = "👋 Hi, I'm Tom."
-Content = "This is a personal blog where I (infrequently) write about technology and other topics of interest to me. I currently provide software engineering consultancy services to the Royal Navy through Thomas Humphris Ltd. Before that I was a Lead Software Engineer at Simpplr, Inc."
+Content = "This is a personal blog where I (infrequently) write about technology and other topics of interest to me. I currently provide software engineering consultancy services to the Royal Navy. Before that I was a Lead Software Engineer at Simpplr, Inc."
 
 [[params.socialIcons]]
 name = "GitHub"
