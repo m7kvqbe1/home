@@ -12,7 +12,7 @@ https://github.com/m7kvqbe1/unix-sockets-protobuf-play
 
 ## Unix Sockets: Inter-Process Communication
 
-Unix Sockets offer a method for inter-process communication (IPC) on the same machine. It's faster and leaner than leveraging a network protocol like TCP. They're straightforward to set up in Go:
+Unix Sockets offer a method for inter-process communication (IPC) on the same machine. It's faster and leaner than using a network protocol like TCP. They're straightforward to set up in Go:
 
 ```go
 listener, _ := net.Listen("unix", "/tmp/example.sock")

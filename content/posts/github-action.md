@@ -53,7 +53,7 @@ Include this Action in your workflow to automate project board updates. Create a
 
 ## How It Works
 
-This GitHub Action leverages the GitHub GraphQL API to interact with Projects V2 and perform the following steps:
+This GitHub Action uses the GitHub GraphQL API to interact with Projects V2 and perform the following steps:
 
 1. **Validate Issue**: Ensures the issue that triggered the workflow has the required label.
 

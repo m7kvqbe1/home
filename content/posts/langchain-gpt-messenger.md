@@ -4,7 +4,7 @@ date = 2024-11-04T10:00:00+00:00
 draft = false
 +++
 
-I built a conversational AI using LangChain and the OpenAI API that analyzes Facebook Messenger data. This enables you to have meaningful conversations with your historical chat data.
+I built a conversational AI using LangChain and the OpenAI API that analyzes Facebook Messenger data. This lets you ask questions about your historical chat data.
 
 Here’s a quick walkthrough of the process and some insights.
 

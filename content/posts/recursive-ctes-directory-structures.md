@@ -4,7 +4,7 @@ date = 2026-01-26T09:00:00+00:00
 draft = false
 +++
 
-Recently, I worked on efficiently querying nested directory structures stored in a database. This led me to explore recursive Common Table Expressions (CTEs) and how they can elegantly solve hierarchical data problems.
+Recently, I worked on efficiently querying nested directory structures stored in a database. This led me to explore recursive Common Table Expressions (CTEs) and how they can solve hierarchical data problems.
 
 ## The Problem
 
@@ -71,7 +71,7 @@ SELECT * FROM subdirectories;
 
 This query starts with directory 123 and recursively finds all its descendants, tracking the depth as it goes.
 
-## The Key Insight: Filter-Aware Directory Listing
+## Filter-Aware Directory Listing
 
 The interesting challenge was creating a function that only shows directories containing files matching active filters. If you're filtering by file extension `.pdf`, you don't want to show empty directories or directories containing only `.jpg` files.
 
@@ -188,7 +188,7 @@ The `filtered_files` CTE is defined once and reused three times in the UNION que
 
 ### 2. Path-Based Recursive Filtering
 
-Instead of using a recursive CTE to find all subdirectories, I leveraged the `path` field:
+Instead of using a recursive CTE to find all subdirectories, I used the `path` field:
 
 ```sql
 d.path LIKE (SELECT path || '/%' FROM directories WHERE id = p_parent_id)
