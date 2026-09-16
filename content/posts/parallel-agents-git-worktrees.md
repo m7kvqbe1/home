@@ -1,5 +1,5 @@
 +++
-title = 'Running Agents in Parallel Across a Dozen Repos'
+title = 'Parallel Agents with Ticket-Scoped Git Worktrees'
 date = 2026-09-16T09:00:00+01:00
 draft = false
 +++
