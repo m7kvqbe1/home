@@ -20,14 +20,12 @@ The setup below lets me drive [Claude Code](https://www.anthropic.com/claude-cod
 
 The flow is a simple chain. The phone connects to the laptop over the Tailscale network, Termius establishes an SSH + Mosh session, and that session attaches to a long-lived tmux window where Claude Code is already running:
 
-```text
-iPhone (Termius)
-   │  SSH + Mosh
-   ▼
-Tailscale tailnet  ──  MacBook Pro (100.x.y.z)
-   │
-   ▼
-tmux session  ──  Claude Code (Opus 4.8)
+```mermaid
+flowchart TB
+    A["iPhone<br/>Termius"] -- "SSH + Mosh" --> B["Tailscale tailnet"]
+    B --> C["MacBook Pro<br/>100.x.y.z"]
+    C --> D["tmux session"]
+    D --> E["Claude Code"]
 ```
 
 Each layer does one job. Tailscale handles *reachability* and security, Mosh handles *connection resilience*, tmux handles *session persistence*, and Termius is the *client*. Claude Code is none the wiser. As far as it's concerned it's running in an ordinary terminal on my Mac.

@@ -25,6 +25,21 @@ This containerized approach provides several benefits:
 2. **Isolated**: Network conditions don't affect the host system
 3. **Self-contained**: Includes all necessary tools and monitoring
 
+The emulator sits between the client and the application. `socat` relays the traffic, `tc netem` shapes it on the way through, and a metrics endpoint reports the conditions currently applied:
+
+```mermaid
+flowchart LR
+    Client --> S
+    subgraph E["Emulator container"]
+        direction LR
+        S["socat relay"] --> N["tc netem<br/>delay, loss, rate"]
+        P["Control pipe"] -.-> N
+        N -.-> M["/metrics"]
+    end
+    N --> App["Application"]
+    M --> Prom["Prometheus"] --> Graf["Grafana"]
+```
+
 Implement as a self-contained Docker container that acts as a transparent proxy:
 
 ```yaml
