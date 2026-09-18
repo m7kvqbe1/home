@@ -73,125 +73,53 @@ This query starts with directory 123 and recursively finds all its descendants, 
 
 ## Filter-Aware Directory Listing
 
-The interesting challenge was creating a function that only shows directories containing files matching active filters. If you're filtering by file extension `.pdf`, you don't want to show empty directories or directories containing only `.jpg` files.
+The interesting challenge was a listing that only shows directories containing files matching active filters. If you're filtering by file extension `.pdf`, you don't want to show empty directories or directories containing only `.jpg` files.
 
-Here's the approach:
+The shape is a single query with three parts. First, a CTE that collects the files matching the active filters, walking into subdirectories by matching on the stored path:
 
 ```sql
-CREATE OR REPLACE FUNCTION browse_directory(
-  p_parent_id INT,
-  p_recursive BOOLEAN DEFAULT FALSE,
-  p_extension TEXT DEFAULT NULL,
-  p_min_size BIGINT DEFAULT NULL,
-  p_start_date TIMESTAMPTZ DEFAULT NULL
+WITH filtered_files AS (
+  SELECT f.id, f.name, f.size, f.directory_id
+  FROM files f
+  JOIN directories d ON d.id = f.directory_id
+  WHERE d.path LIKE (SELECT path || '/%' FROM directories WHERE id = :parent_id)
+    AND (:extension IS NULL OR f.extension = :extension)
+    AND (:min_size IS NULL OR f.size >= :min_size)
 )
-RETURNS TABLE (
-  item_type TEXT,
-  item_id TEXT,
-  name TEXT,
-  size BIGINT,
-  extension TEXT,
-  created_at TIMESTAMPTZ,
-  sort_order INT
-) AS $$
-DECLARE
-  has_filters BOOLEAN;
-BEGIN
-  -- Determine if any filters are active
-  has_filters := (
-    p_extension IS NOT NULL OR
-    p_min_size IS NOT NULL OR
-    p_start_date IS NOT NULL
-  );
+```
 
-  RETURN QUERY
-  -- CTE: Get all files matching the filter criteria
-  WITH filtered_files AS (
-    SELECT
-      f.id,
-      f.name,
-      f.size,
-      f.extension,
-      f.created_at,
-      f.directory_id
-    FROM files f
-    LEFT JOIN directories d ON f.directory_id = d.id
-    WHERE
-      -- RECURSIVE MODE: Include files from all subdirectories
-      (NOT p_recursive OR p_parent_id IS NULL OR
-       f.directory_id = p_parent_id OR
-       d.path LIKE (SELECT path || '/%' FROM directories WHERE id = p_parent_id))
+Then the directories at the current level, kept only if a matching file exists somewhere beneath them:
 
-      -- Apply filters
-      AND (p_extension IS NULL OR f.extension = p_extension)
-      AND (p_min_size IS NULL OR f.size >= p_min_size)
-      AND (p_start_date IS NULL OR f.created_at >= p_start_date)
-  )
+```sql
+SELECT 'directory' AS item_type, d.id, d.name, 0 AS sort_order
+FROM directories d
+WHERE d.parent_id IS NOT DISTINCT FROM :parent_id
+  AND (NOT :has_filters OR EXISTS (
+    SELECT 1 FROM filtered_files f WHERE f.directory_id = d.id
+  ))
+```
 
-  -- Return directories at current level
-  SELECT
-    'directory'::TEXT,
-    d.id::TEXT,
-    d.name,
-    d.total_size,
-    NULL::TEXT,
-    d.created_at,
-    0  -- Sort directories first
-  FROM directories d
-  WHERE NOT p_recursive
-    AND d.parent_id IS NOT DISTINCT FROM p_parent_id
-    AND (
-      NOT has_filters  -- No filters? Show all directories
-      OR EXISTS (
-        -- Only show if contains matching files
-        SELECT 1 FROM filtered_files WHERE directory_id = d.id
-      )
-    )
+And finally the matching files at the current level, unioned on after the directories:
 
-  UNION ALL
-
-  -- Return files at current level
-  SELECT
-    'file'::TEXT,
-    f.id,
-    f.name,
-    f.size,
-    f.extension,
-    f.created_at,
-    1  -- Sort files after directories
-  FROM filtered_files f
-  WHERE NOT p_recursive
-    AND f.directory_id IS NOT DISTINCT FROM p_parent_id
-
-  UNION ALL
-
-  -- RECURSIVE: Return ALL descendant files
-  SELECT
-    'file'::TEXT,
-    f.id,
-    f.name,
-    f.size,
-    f.extension,
-    f.created_at,
-    1
-  FROM filtered_files f
-  WHERE p_recursive;
-END;
-$$ LANGUAGE plpgsql STABLE;
+```sql
+UNION ALL
+SELECT 'file', f.id, f.name, 1
+FROM filtered_files f
+WHERE f.directory_id IS NOT DISTINCT FROM :parent_id
 ```
 
 ## Key Design Decisions
 
 ### 1. Reusable CTE for Filtered Files
 
-The `filtered_files` CTE is defined once and reused three times in the UNION query. This eliminates duplication and ensures consistent filtering logic across all query branches.
+The `filtered_files` CTE is defined once and reused by both branches of the union. This eliminates duplication and ensures consistent filtering logic across all query branches.
 
 ### 2. Path-Based Recursive Filtering
 
 Instead of using a recursive CTE to find all subdirectories, I used the `path` field:
 
 ```sql
-d.path LIKE (SELECT path || '/%' FROM directories WHERE id = p_parent_id)
+d.path LIKE (SELECT path || '/%' FROM directories WHERE id = :parent_id)
 ```
 
 This is more efficient than recursion for the common case of filtering files in a subtree.
@@ -248,4 +176,4 @@ Modeling directory structures in a database revealed some interesting patterns:
 4. Conditional logic (like `has_filters`) can optimize common vs. filtered cases
 5. Composite indexes should match your query patterns
 
-The combination of these techniques created a flexible function that handles both browsing and filtered searching efficiently.
+The combination of these techniques gives a single query that handles both browsing and filtered searching efficiently.

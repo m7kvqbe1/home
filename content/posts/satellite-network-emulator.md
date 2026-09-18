@@ -121,109 +121,29 @@ echo "cycle" > /tmp/netem_control
 echo "set none" > /tmp/netem_control
 ```
 
-```bash
-# Create control pipe
-mkfifo /tmp/netem_control
+The control script is a loop reading from a FIFO:
 
-# Monitor for commands
-while true; do
-  if read command < /tmp/netem_control; then
-    case "$command" in
-      "set "*)
-        scenario="${command#set }"
-        apply_scenario "$scenario"
-        ;;
-      "cycle")
-        start_cycle
-        ;;
-    esac
-  fi
-done
+```bash
+mkfifo /tmp/netem_control
+while read -r command < /tmp/netem_control; do apply_scenario "$command"; done
 ```
 
 ### Metrics Collection
 
-Handle metrics collection via a custom exporter that provides Prometheus-compatible metrics, see trivial Golang example below:
+A small exporter polls `tc` and publishes what it finds as Prometheus gauges:
 
 ```go
-package main
-
-import (
-    "github.com/prometheus/client_golang/prometheus"
-    "github.com/prometheus/client_golang/prometheus/promhttp"
-    "net/http"
-    "os/exec"
-    "regexp"
-    "strconv"
-    "time"
-)
-
-var (
-    networkDelay = prometheus.NewGauge(prometheus.GaugeOpts{
-        Name: "network_delay_ms",
-        Help: "Current network delay in milliseconds",
-    })
-
-    packetLoss = prometheus.NewGauge(prometheus.GaugeOpts{
-        Name: "packet_loss_percent",
-        Help: "Current packet loss percentage",
-    })
-
-    bandwidth = prometheus.NewGauge(prometheus.GaugeOpts{
-        Name: "bandwidth_kbps",
-        Help: "Current bandwidth in Kbps",
-    })
-)
-
-func init() {
-    prometheus.MustRegister(networkDelay)
-    prometheus.MustRegister(packetLoss)
-    prometheus.MustRegister(bandwidth)
-}
-
-func collectMetrics() {
-    for {
-        cmd := exec.Command("tc", "-s", "qdisc", "show", "dev", "eth0")
-        output, err := cmd.Output()
-        if err != nil {
-            continue
-        }
-
-        // Parse tc output using regexp
-        if delay := parseDelay(string(output)); delay != nil {
-            networkDelay.Set(*delay)
-        }
-        if loss := parseLoss(string(output)); loss != nil {
-            packetLoss.Set(*loss)
-        }
-        if bw := parseBandwidth(string(output)); bw != nil {
-            bandwidth.Set(*bw)
-        }
-
-        time.Sleep(1 * time.Second)
-    }
-}
-
-func main() {
-    go collectMetrics()
-
-    http.Handle("/metrics", promhttp.Handler())
-    http.ListenAndServe(":9091", nil)
-}
+out, _ := exec.Command("tc", "-s", "qdisc", "show", "dev", "eth0").Output()
+networkDelay.Set(parseDelay(string(out)))
+http.Handle("/metrics", promhttp.Handler())
 ```
 
 Metrics are exposed via an endpoint (`/metrics`) in the standard Prometheus format:
 
 ```text
-# HELP network_delay_ms Current network delay in milliseconds
-# TYPE network_delay_ms gauge
-network_delay_ms 600.0
-# HELP packet_loss_percent Current packet loss percentage
-# TYPE packet_loss_percent gauge
-packet_loss_percent 1.0
-# HELP bandwidth_kbps Current bandwidth in Kbps
-# TYPE bandwidth_kbps gauge
-bandwidth_kbps 2048.0
+network_delay_ms 600
+packet_loss_percent 1
+bandwidth_kbps 2048
 ```
 
 These metrics are then scraped by Prometheus and visualized in Grafana, providing real-time insights into the network conditions:
