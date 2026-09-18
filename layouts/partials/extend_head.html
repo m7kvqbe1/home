@@ -9,4 +9,18 @@
     justify-content: center;
     padding: 0.8rem;
   }
+  pre.mermaid {
+    display: flex;
+    justify-content: center;
+    background: transparent;
+    padding: 1rem 0;
+  }
 </style>
+{{- $_ := .Content }}
+{{- if .Page.Store.Get "hasMermaid" }}
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  const theme = document.body.classList.contains("dark") ? "dark" : "default";
+  mermaid.initialize({ startOnLoad: true, theme });
+</script>
+{{- end }}
