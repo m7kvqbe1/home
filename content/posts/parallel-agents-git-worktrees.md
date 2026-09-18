@@ -165,8 +165,4 @@ Indented rows are linked worktrees, found via `git worktree list --porcelain` an
 
 The slash command asks the model to rank that (failing CI, then unresolved comments, then approved-and-green, then forgotten local work) and end with one suggested next action. A stand-up for one person and their agents, in about four seconds.
 
-## What I'd still change
-
-The dependency clone should compare lockfile hashes and warn when the branch has diverged, rather than leave me to find out from a confusing test failure. And the removal path could offer to push before refusing, since "unpushed" is usually the only thing standing between me and a clean workspace.
-
-But the lesson holds. Git already had the primitive for isolating parallel work. The rest is a few hundred lines of shell and being disciplined about what the model decides versus what a script does.
+Git already had the primitive for isolating parallel work. The rest is a few hundred lines of shell and being disciplined about what the model decides versus what a script does.

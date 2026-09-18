@@ -169,10 +169,4 @@ t "apps drain before data goes" [ "$(logline 'get pods')" -lt "$(logline 'scale 
 
 Fourteen scenarios, a few seconds, no cluster. The ones that earn their keep are the ugly ones: a sync restoring a workload mid-sleep, a dependency that never comes ready, a scale that fails and must keep its annotation, a kind that can't be listed. CI also renders the chart and diffs the packaged script against the source, because a ConfigMap that silently lags the file it claims to contain is a Sunday bug.
 
-## What I'd still change
-
-Nothing wakes the namespace when a deployment lands. A pipeline against a sleeping environment fails, and the fix is a wake step at the front of every pipeline. The chart could watch for that, but that means a webhook or a controller, and the point was three CronJobs and a script.
-
-The dependency list is also flat. It says "these before those" but not "these two in parallel, then that". For four entries it doesn't matter. For three independent databases it makes the wake a minute slower than it needs to be.
-
-But the shape holds. Kubernetes already had the primitives: a CronJob, a Role, an annotation, `rollout status`. The chart is mostly about the order you use them in, and about refusing to act when the result can't be trusted.
+Kubernetes already had the primitives: a CronJob, a Role, an annotation, `rollout status`. The chart is mostly about the order you use them in, and about refusing to act when the result can't be trusted.
