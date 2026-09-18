@@ -148,12 +148,4 @@ Installation is then two lines:
 
 The gotcha is asset paths. A plugin's files are addressed relative to `${CLAUDE_PLUGIN_ROOT}`. Install the skill directly instead and that variable isn't set, so every path silently points at nothing. Rather than making `SKILL.md` handle both cases, the plain installer rewrites the variable out at install time.
 
-## What I'd take to the next one
-
-**Put the deterministic half in a real CLI.** The assembler is a normal script with `--help` that I can run by hand, so the skill is debuggable without an agent in the loop. If the deck is wrong I can bisect: bad fragment, or bad assembly?
-
-**Encode limits, not aspirations.** "3–4 steps; more than 4 will wrap" beat every attempt I made at describing what good looks like.
-
-**Give it a way to see the result.** Rendering the output and reading it back caught more real problems than anything else, and it's the step most easily left out, because everything appears to have worked without it.
-
 Work out which part of the job needs judgement, do that part properly, and keep it away from the part that doesn't.
