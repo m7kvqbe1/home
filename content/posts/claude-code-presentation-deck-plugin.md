@@ -1,6 +1,6 @@
 +++
 title = 'Turning a Repeated Prompt into a Claude Code Plugin'
-date = 2026-08-19T09:00:00+01:00
+date = 2026-02-03T09:00:00+00:00
 draft = false
 +++
 
