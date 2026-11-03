@@ -1,0 +1,15 @@
+{{ define "main" }}
+{{- with site.Params.intro }}
+<section class="intro">
+  <div class="wave" aria-hidden="true"><span>{{ .emoji }}</span></div>
+  <p><strong>{{ .title | markdownify }}</strong> {{ .content | markdownify }}</p>
+  <nav class="links">
+    {{- range site.Params.socialLinks }}
+    <a href="{{ .url }}" rel="me">{{ .name }}</a>
+    {{- end }}
+  </nav>
+</section>
+{{- end }}
+{{- $posts := where (where site.RegularPages "Section" "posts") "Draft" false }}
+{{- partial "post-list.html" $posts }}
+{{ end }}

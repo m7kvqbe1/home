@@ -1,0 +1,32 @@
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} · {{ site.Title }}{{ end }}</title>
+<meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ if .IsPage }}{{ .Summary | plainify | truncate 160 }}{{ else }}{{ site.Params.description }}{{ end }}{{ end }}" />
+<link rel="canonical" href="{{ .Permalink }}" />
+<link
+  rel="icon"
+  href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👋</text></svg>"
+/>
+{{- with .OutputFormats.Get "rss" }}
+<link rel="alternate" type="application/rss+xml" href="{{ .Permalink }}" title="{{ site.Title }}" />
+{{- end }}
+{{- template "_internal/opengraph.html" . }}
+{{- template "_internal/twitter_cards.html" . }}
+<script>
+  (function () {
+    var stored = localStorage.getItem("theme");
+    var dark = stored ? stored === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+    document.documentElement.dataset.theme = dark ? "dark" : "light";
+  })();
+</script>
+<link rel="preload" href="{{ "fonts/Geist-Variable.woff2" | relURL }}" as="font" type="font/woff2" crossorigin />
+{{- $css := resources.Get "css/main.css" | minify | fingerprint }}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}" />
+{{- $_ := .Content }}
+{{- if .Page.Store.Get "hasMermaid" }}
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  const theme = document.documentElement.dataset.theme === "dark" ? "dark" : "default";
+  mermaid.initialize({ startOnLoad: true, theme });
+</script>
+{{- end }}
