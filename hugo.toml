@@ -4,9 +4,11 @@ title = 'm7kvqbe1.dev'
 
 [params]
 description = "Personal blog of Tom Humphris, software engineering consultant."
+images = ["images/avatar.jpg"]
 
 [params.intro]
 emoji = "👋"
+avatar = "images/avatar.jpg"
 title = "Hi, I'm Tom."
 content = "This is a personal blog where I (infrequently) write about technology and other topics of interest to me. I currently provide software engineering consultancy services. Before that I was a Lead Software Engineer at Simpplr, Inc."
 

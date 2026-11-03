@@ -141,10 +141,31 @@ a:hover {
   padding: 14vh 0 1.5rem;
 }
 
+.avatar {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 1.25rem;
+}
+
+.avatar img {
+  display: block;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 0 1px var(--rule);
+}
+
+.avatar img + .wave {
+  position: absolute;
+  right: -10px;
+  bottom: -4px;
+  font-size: 1.4rem;
+}
+
 .wave {
   font-size: 1.75rem;
   line-height: 1;
-  margin-bottom: 1.25rem;
   cursor: default;
   user-select: none;
   animation: wave 1.2s ease-in-out 0.3s;

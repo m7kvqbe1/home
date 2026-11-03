@@ -1,7 +1,12 @@
 {{ define "main" }}
 {{- with site.Params.intro }}
 <section class="intro">
-  <div class="wave" aria-hidden="true"><span>{{ .emoji }}</span></div>
+  <div class="avatar">
+    {{- with .avatar }}
+    <img src="{{ . | relURL }}" alt="Tom Humphris" width="64" height="64" />
+    {{- end }}
+    <div class="wave" aria-hidden="true"><span>{{ .emoji }}</span></div>
+  </div>
   <p><strong>{{ .title | markdownify }}</strong> {{ .content | markdownify }}</p>
   <nav class="links">
     {{- range site.Params.socialLinks }}
