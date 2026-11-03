@@ -149,8 +149,8 @@ a:hover {
 
 .avatar img {
   display: block;
-  width: 64px;
-  height: 64px;
+  width: 88px;
+  height: 88px;
   border-radius: 50%;
   object-fit: cover;
   box-shadow: 0 0 0 1px var(--rule);
@@ -158,9 +158,9 @@ a:hover {
 
 .avatar img + .wave {
   position: absolute;
-  right: -10px;
-  bottom: -4px;
-  font-size: 1.4rem;
+  right: -8px;
+  bottom: -2px;
+  font-size: 1.6rem;
 }
 
 .wave {
