@@ -1,20 +1,20 @@
 baseURL = 'https://m7kvqbe1.dev/'
 languageCode = 'en-gb'
 title = 'm7kvqbe1.dev'
-theme = 'PaperMod'
 
 [params]
-defaultTheme = 'dark'
+description = "Personal blog of Tom Humphris, software engineering consultant."
 
-[params.homeInfoParams]
-Title = "👋 Hi, I'm Tom."
-Content = "This is a personal blog where I (infrequently) write about technology and other topics of interest to me. I currently provide software engineering consultancy services. Before that I was a Lead Software Engineer at Simpplr, Inc."
+[params.intro]
+emoji = "👋"
+title = "Hi, I'm Tom."
+content = "This is a personal blog where I (infrequently) write about technology and other topics of interest to me. I currently provide software engineering consultancy services. Before that I was a Lead Software Engineer at Simpplr, Inc."
 
-[[params.socialIcons]]
+[[params.socialLinks]]
 name = "GitHub"
 url = "https://github.com/m7kvqbe1"
 
-[[params.socialIcons]]
+[[params.socialLinks]]
 name = "LinkedIn"
 url = "https://www.linkedin.com/in/tom-humphris-392b2251/"
 
