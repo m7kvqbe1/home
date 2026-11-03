@@ -1,6 +1,6 @@
 +++
 title = 'Recursive CTEs for Directory Structures'
-date = 2026-01-26T09:00:00+00:00
+date = 2025-06-17T09:00:00+01:00
 draft = false
 +++
 
