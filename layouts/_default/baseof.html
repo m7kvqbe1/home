@@ -3,7 +3,7 @@
   <head>
     {{- partial "head.html" . }}
   </head>
-  <body>
+  <body id="top">
     <header class="site-header">
       {{- if not .IsHome }}
       <a class="site-name" href="{{ "/" | relURL }}">{{ site.Title }}</a>
@@ -20,7 +20,16 @@
       <span>© {{ now.Year }} Tom Humphris</span>
       <a href="{{ "index.xml" | absURL }}">RSS</a>
     </footer>
+    <a class="top-link" href="#top" aria-label="Back to top" title="Back to top">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+    </a>
     <script>
+      var topLink = document.querySelector(".top-link");
+      function updateTopLink() {
+        topLink.classList.toggle("visible", window.scrollY > 600);
+      }
+      window.addEventListener("scroll", updateTopLink, { passive: true });
+      updateTopLink();
       document.querySelector(".theme-toggle").addEventListener("click", function () {
         var next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
         document.documentElement.dataset.theme = next;
