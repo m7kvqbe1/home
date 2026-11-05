@@ -460,10 +460,6 @@ pre.mermaid {
   font-size: 0.85rem;
 }
 
-.site-footer a {
-  color: inherit;
-}
-
 @media (max-width: 500px) {
   body {
     font-size: 16px;
